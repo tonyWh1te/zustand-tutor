@@ -5,9 +5,9 @@ function App() {
   return (
     <div className="App">
       <div className="columns">
-        <Column state="PLANNED" />
-        <Column state="IN_PROGRESS" />
-        <Column state="COMPLETED" />
+        <Column status="PLANNED" />
+        <Column status="ONGOING" />
+        <Column status="DONE" />
       </div>
     </div>
   );

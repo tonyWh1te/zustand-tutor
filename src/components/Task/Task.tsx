@@ -4,21 +4,20 @@ import './Task.css';
 
 interface TaskProps {
   title: string;
+  status: string;
 }
 
-const STATUS = 'PLANNED';
-
-const Task: FC<TaskProps> = ({ title }) => {
+const Task: FC<TaskProps> = ({ title, status }) => {
   return (
     <div className="task">
       <p>{title}</p>
       <div className="bottom">
         <div></div>
         <div
-          className={clsx('status', STATUS)}
+          className={clsx('status', status)}
           title="Status"
         >
-          {STATUS}
+          {status}
         </div>
       </div>
     </div>
