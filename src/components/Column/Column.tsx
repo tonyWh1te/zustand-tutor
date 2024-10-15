@@ -1,5 +1,6 @@
-import { FC, useMemo } from 'react';
+import { FC, useMemo, DragEvent } from 'react';
 import { useShallow } from 'zustand/shallow';
+import { v4 as uuidv4 } from 'uuid';
 import { useStore } from '../../store';
 import { TTask } from '../../types';
 import Task from '../Task/Task';
@@ -40,14 +41,44 @@ const Column: FC<IColumnProps> = ({ status }) => {
   //   },
   // );
 
+  const addTask = useStore((state) => state.addTask);
+  const setDraggedTask = useStore((state) => state.setDraggedTask);
+  const draggedTask: TTask | null = useStore((state) => state.draggedTask);
+  const moveTask = useStore((state) => state.moveTask);
+
+  const onAdd = (task: TTask) => () => {
+    addTask(task);
+  };
+
+  const onDragOver = (e: DragEvent) => {
+    e.preventDefault();
+  };
+
+  const onDrop = (e: DragEvent) => {
+    e.preventDefault();
+    moveTask(draggedTask as TTask, status);
+    setDraggedTask(null);
+  };
+
   return (
-    <div className="column">
-      <h3>{status}</h3>
+    <div
+      className="column"
+      onDragOver={onDragOver}
+      onDrop={onDrop}
+    >
+      <div className="column-header">
+        <h3>{status}</h3>
+        <button
+          className="btn"
+          onClick={onAdd({ title: 'Task', id: uuidv4(), status })}
+        >
+          ADD
+        </button>
+      </div>
       {tasks.map((task) => (
         <Task
           key={task.id}
-          title={task.title}
-          status={task.status}
+          task={task}
         />
       ))}
     </div>

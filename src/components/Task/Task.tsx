@@ -1,23 +1,47 @@
 import { FC } from 'react';
+import { useStore } from '../../store';
+import { TTask } from '../../types';
 import clsx from 'clsx';
 import './Task.css';
 
 interface TaskProps {
-  title: string;
-  status: string;
+  task: TTask;
 }
 
-const Task: FC<TaskProps> = ({ title, status }) => {
+const Task: FC<TaskProps> = ({ task }) => {
+  const { removeTask, setDraggedTask } = useStore();
+
+  const onRemove = (id: number) => () => {
+    removeTask(id);
+  };
+
+  const onDragStart = (task: TTask) => () => {
+    setDraggedTask(task);
+  };
+
   return (
-    <div className="task">
-      <p>{title}</p>
+    <div
+      className="task"
+      draggable
+      onDragStart={onDragStart(task)}
+    >
+      <div className="top">
+        <p>{task.title}</p>
+        <button
+          onClick={onRemove(task.id)}
+          className="remove"
+        >
+          Remove
+        </button>
+      </div>
+
       <div className="bottom">
         <div></div>
         <div
-          className={clsx('status', status)}
+          className={clsx('status', task.status)}
           title="Status"
         >
-          {status}
+          {task.status}
         </div>
       </div>
     </div>

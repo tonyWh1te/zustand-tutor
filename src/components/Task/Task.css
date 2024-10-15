@@ -8,6 +8,7 @@
   flex-direction: column;
   justify-content: space-between;
   font-weight: bold;
+  cursor: move;
 }
 
 .task p {
@@ -22,6 +23,21 @@
   display: flex;
   justify-content: space-between;
   align-items: center;
+}
+
+.top {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.remove {
+  background-color: red;
+  color: #fff;
+  border: none;
+  padding: 5px 10px;
+  border-radius: 5px;
+  cursor: pointer;
 }
 
 .status {
